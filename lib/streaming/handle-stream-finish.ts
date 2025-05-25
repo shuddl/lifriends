@@ -3,6 +3,7 @@ import { generateRelatedQuestions } from '@/lib/agents/generate-related-question
 import { ExtendedCoreMessage } from '@/lib/types'
 import { convertToExtendedCoreMessages } from '@/lib/utils'
 import { CoreMessage, DataStreamWriter, JSONValue, Message } from 'ai'
+import { captureException } from '@/lib/monitoring'
 
 interface HandleStreamFinishParams {
   responseMessages: CoreMessage[]
@@ -89,10 +90,12 @@ export async function handleStreamFinish({
       userId
     ).catch(error => {
       console.error('Failed to save chat:', error)
+      captureException(error)
       throw new Error('Failed to save chat history')
     })
   } catch (error) {
     console.error('Error in handleStreamFinish:', error)
+    captureException(error)
     throw error
   }
 }

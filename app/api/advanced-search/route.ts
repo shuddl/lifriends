@@ -11,6 +11,7 @@ import {
 import { Agent } from 'http'
 import { Redis } from '@upstash/redis'
 import { createClient } from 'redis'
+import { captureException } from '@/lib/monitoring'
 
 /**
  * Maximum number of results to fetch from SearXNG.
@@ -77,6 +78,7 @@ async function getCachedResults(
     }
   } catch (error) {
     console.error('Redis cache error:', error)
+    captureException(error)
     return null
   }
 }
@@ -99,6 +101,7 @@ async function setCachedResults(
     console.log(`Cached results for key: ${cacheKey}`)
   } catch (error) {
     console.error('Redis cache error:', error)
+    captureException(error)
   }
 }
 
@@ -118,6 +121,7 @@ async function cleanupExpiredCache() {
     }
   } catch (error) {
     console.error('Cache cleanup error:', error)
+    captureException(error)
   }
 }
 
@@ -156,6 +160,7 @@ export async function POST(request: Request) {
     return NextResponse.json(results)
   } catch (error) {
     console.error('Advanced search error:', error)
+    captureException(error)
     return NextResponse.json(
       {
         message: 'Internal Server Error',
@@ -291,6 +296,7 @@ async function advancedSearchXNGSearch(
     }
   } catch (error) {
     console.error('SearchXNG API error:', error)
+    captureException(error)
     return {
       results: [],
       query: query,
@@ -389,6 +395,7 @@ async function crawlPage(
     return result
   } catch (error) {
     console.error(`Error crawling ${result.url}:`, error)
+    captureException(error)
     return {
       ...result,
       content: result.content || 'Content unavailable due to crawling error.'
@@ -584,6 +591,7 @@ async function fetchHtmlWithTimeout(
     ])
   } catch (error) {
     console.error(`Error fetching ${url}:`, error)
+    captureException(error)
     const errorMessage = error instanceof Error ? error.message : String(error)
     return `<html><body>Error fetching content: ${errorMessage}</body></html>`
   }

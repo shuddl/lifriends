@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter as FontSans } from 'next/font/google'
+import { initMonitoring } from '@/lib/monitoring'
 import './globals.css'
 
 const fontSans = FontSans({
@@ -59,6 +60,8 @@ export default async function RootLayout({
     } = await supabase.auth.getUser()
     user = supabaseUser
   }
+
+  initMonitoring()
 
   return (
     <html lang="en" suppressHydrationWarning>

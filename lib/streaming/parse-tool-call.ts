@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { captureException } from '@/lib/monitoring'
 
 export interface ToolCall<T = unknown> {
   tool: string
@@ -59,6 +60,7 @@ export function parseToolCallXml<T>(
     return { tool, parameters }
   } catch (error) {
     console.error('Failed to parse parameters:', error)
+    captureException(error)
     return { tool }
   }
 }
