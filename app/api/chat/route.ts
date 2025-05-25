@@ -3,6 +3,7 @@ import { createManualToolStreamResponse } from '@/lib/streaming/create-manual-to
 import { createToolCallingStreamResponse } from '@/lib/streaming/create-tool-calling-stream'
 import { Model } from '@/lib/types/models'
 import { isProviderEnabled } from '@/lib/utils/registry'
+import { isRateLimited } from '@/lib/utils'
 import { cookies } from 'next/headers'
 
 export const maxDuration = 30
@@ -18,6 +19,13 @@ const DEFAULT_MODEL: Model = {
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    const windowMs = parseInt(process.env.RATE_LIMIT_WINDOW || '60000', 10)
+    const max = parseInt(process.env.RATE_LIMIT_MAX || '60', 10)
+    if (isRateLimited(ip, windowMs, max)) {
+      return new Response('Too many requests', { status: 429 })
+    }
+
     const { messages, id: chatId } = await req.json()
     const referer = req.headers.get('referer')
     const isSharePage = referer?.includes('/share/')

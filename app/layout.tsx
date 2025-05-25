@@ -5,11 +5,14 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/sonner'
 import { createClient } from '@/lib/supabase/server'
-import { cn } from '@/lib/utils'
+import { cn, initSentry } from '@/lib/utils'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
+
+// Initialize error monitoring
+initSentry()
 
 const fontSans = FontSans({
   subsets: ['latin'],

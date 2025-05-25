@@ -220,3 +220,24 @@ SERPER_API_KEY=[YOUR_API_KEY]
 ```bash
 JINA_API_KEY=[YOUR_API_KEY]
 ```
+
+### Rate Limiting
+
+Set limits on API requests using the built-in middleware. Configure the window and maximum number of requests per IP:
+
+```bash
+RATE_LIMIT_WINDOW=60000  # 1 minute window
+RATE_LIMIT_MAX=60        # Max requests per window
+```
+
+### Error Monitoring
+
+Provide a Sentry DSN to enable error tracking:
+
+```bash
+SENTRY_DSN=[YOUR_SENTRY_DSN]
+```
+
+### SearXNG Limiter
+
+The `searxng-limiter.toml` file controls request limits for your self-hosted SearXNG instance. Adjust the values to throttle abusive traffic.
