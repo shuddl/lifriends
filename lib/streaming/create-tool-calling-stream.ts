@@ -10,6 +10,7 @@ import { getMaxAllowedTokens, truncateMessages } from '../utils/context-window'
 import { isReasoningModel } from '../utils/registry'
 import { handleStreamFinish } from './handle-stream-finish'
 import { BaseStreamConfig } from './types'
+import { captureException } from '@/lib/monitoring'
 
 // Function to check if a message contains ask_question tool invocation
 function containsAskQuestionTool(message: CoreMessage) {
@@ -71,11 +72,12 @@ export function createToolCallingStreamResponse(config: BaseStreamConfig) {
         result.mergeIntoDataStream(dataStream)
       } catch (error) {
         console.error('Stream execution error:', error)
+        captureException(error)
         throw error
       }
     },
     onError: error => {
-      // console.error('Stream error:', error)
+      captureException(error)
       return error instanceof Error ? error.message : String(error)
     }
   })

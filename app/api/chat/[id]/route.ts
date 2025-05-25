@@ -1,6 +1,7 @@
 import { deleteChat } from '@/lib/actions/chat'
 import { getCurrentUserId } from '@/lib/auth/get-current-user'
 import { NextRequest, NextResponse } from 'next/server'
+import { captureException } from '@/lib/monitoring'
 
 export async function DELETE(
   request: NextRequest,
@@ -32,6 +33,7 @@ export async function DELETE(
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error(`API route error deleting chat ${chatId}:`, error)
+    captureException(error)
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }

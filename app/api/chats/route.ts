@@ -2,6 +2,7 @@ import { getChatsPage } from '@/lib/actions/chat'
 import { getCurrentUserId } from '@/lib/auth/get-current-user'
 import { type Chat } from '@/lib/types'
 import { NextRequest, NextResponse } from 'next/server'
+import { captureException } from '@/lib/monitoring'
 
 interface ChatPageResponse {
   chats: Chat[]
@@ -25,6 +26,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json<ChatPageResponse>(result)
   } catch (error) {
     console.error('API route error fetching chats:', error)
+    captureException(error)
     return NextResponse.json<ChatPageResponse>(
       { chats: [], nextOffset: null },
       { status: 500 }

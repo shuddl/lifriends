@@ -11,6 +11,7 @@ import { getMaxAllowedTokens, truncateMessages } from '../utils/context-window'
 import { handleStreamFinish } from './handle-stream-finish'
 import { executeToolCall } from './tool-execution'
 import { BaseStreamConfig } from './types'
+import { captureException } from '@/lib/monitoring'
 
 export function createManualToolStreamResponse(config: BaseStreamConfig) {
   return createDataStreamResponse({
@@ -100,10 +101,12 @@ export function createManualToolStreamResponse(config: BaseStreamConfig) {
         })
       } catch (error) {
         console.error('Stream execution error:', error)
+        captureException(error)
       }
     },
     onError: error => {
       console.error('Stream error:', error)
+      captureException(error)
       return error instanceof Error ? error.message : String(error)
     }
   })

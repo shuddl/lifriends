@@ -4,6 +4,7 @@ import { createToolCallingStreamResponse } from '@/lib/streaming/create-tool-cal
 import { Model } from '@/lib/types/models'
 import { isProviderEnabled } from '@/lib/utils/registry'
 import { cookies } from 'next/headers'
+import { captureException } from '@/lib/monitoring'
 
 export const maxDuration = 30
 
@@ -41,6 +42,7 @@ export async function POST(req: Request) {
         selectedModel = JSON.parse(modelJson) as Model
       } catch (e) {
         console.error('Failed to parse selected model:', e)
+        captureException(e)
       }
     }
 
@@ -76,6 +78,7 @@ export async function POST(req: Request) {
         })
   } catch (error) {
     console.error('API route error:', error)
+    captureException(error)
     return new Response('Error processing your request', {
       status: 500,
       statusText: 'Internal Server Error'

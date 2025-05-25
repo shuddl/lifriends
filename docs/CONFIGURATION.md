@@ -220,3 +220,10 @@ SERPER_API_KEY=[YOUR_API_KEY]
 ```bash
 JINA_API_KEY=[YOUR_API_KEY]
 ```
+
+### Monitoring with Sentry
+
+```bash
+SENTRY_DSN=[YOUR_SENTRY_DSN]
+SENTRY_ENVIRONMENT=production
+```
