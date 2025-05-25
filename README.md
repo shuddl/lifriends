@@ -70,6 +70,7 @@ Models are configured in `public/config/models.json`. Each model requires its co
 
 - Docker deployment ready
 - Browser search engine integration
+- Specialized real estate research mode
 
 ## 🧱 Stack
 

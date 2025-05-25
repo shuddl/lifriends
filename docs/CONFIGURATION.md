@@ -220,3 +220,9 @@ SERPER_API_KEY=[YOUR_API_KEY]
 ```bash
 JINA_API_KEY=[YOUR_API_KEY]
 ```
+
+### Real Estate Researcher
+
+The `realEstateResearcher` agent tailors its system prompt for property searches,
+market trends, mortgages and other real estate topics. Use this agent when you
+need answers focused on real estate terminology and user intents.
