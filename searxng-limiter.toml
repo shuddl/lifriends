@@ -1,1 +1,7 @@
-#https://docs.searxng.org/admin/searx.limiter.html
+# SearXNG rate limiter configuration
+[server]
+limiter = true
+
+[limits]
+search = "60/minute"
+engines = "10/minute"

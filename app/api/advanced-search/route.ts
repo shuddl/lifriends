@@ -11,6 +11,7 @@ import {
 import { Agent } from 'http'
 import { Redis } from '@upstash/redis'
 import { createClient } from 'redis'
+import { isRateLimited } from '@/lib/utils'
 
 /**
  * Maximum number of results to fetch from SearXNG.
@@ -125,6 +126,16 @@ async function cleanupExpiredCache() {
 setInterval(cleanupExpiredCache, CACHE_EXPIRATION_CHECK_INTERVAL)
 
 export async function POST(request: Request) {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+  const windowMs = parseInt(process.env.RATE_LIMIT_WINDOW || '60000', 10)
+  const max = parseInt(process.env.RATE_LIMIT_MAX || '60', 10)
+  if (isRateLimited(ip, windowMs, max)) {
+    return NextResponse.json(
+      { message: 'Too many requests', results: [], images: [], number_of_results: 0 },
+      { status: 429 }
+    )
+  }
+
   const { query, maxResults, searchDepth, includeDomains, excludeDomains } =
     await request.json()
 

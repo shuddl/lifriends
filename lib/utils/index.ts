@@ -255,3 +255,5 @@ export function convertToExtendedCoreMessages(
 
   return result
 }
+export { initSentry } from './sentry'
+export { isRateLimited } from './rate-limit'
