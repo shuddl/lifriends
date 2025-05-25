@@ -109,6 +109,17 @@ engines:
 
 For detailed configuration options, refer to the [SearXNG documentation](https://docs.searxng.org/admin/settings/settings.html#settings-yml)
 
+#### Adjusting Rate Limits
+
+Request throttling is controlled by the `searxng-limiter.toml` file. Enable the
+limiter by setting `SEARXNG_LIMITER=true` in your `.env.local`. Each limit uses
+the `requests/time` format (for example `60/minute`). After editing the file
+restart the service to apply the new limits:
+
+```bash
+docker-compose restart searxng
+```
+
 #### Troubleshooting
 
 - If specific search engines aren't working, try disabling them in `searxng-settings.yml`
