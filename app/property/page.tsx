@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from 'react'
 import PropertyCard from '@/components/property-card'
 import PropertyMap from '@/components/property-map'
