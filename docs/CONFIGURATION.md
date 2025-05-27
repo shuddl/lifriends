@@ -82,6 +82,16 @@ SEARXNG_SAFESEARCH=0  # 0: off, 1: moderate, 2: strict
 SEARXNG_LIMITER=false  # Enable to limit requests per IP
 ```
 
+### RealEstate API
+
+To enable property search using a real estate listings provider:
+
+```bash
+SEARCH_API=realestate
+REALESTATE_API_KEY=[YOUR_REALESTATE_API_KEY]
+REALESTATE_API_URL=https://api.example.com
+```
+
 #### Advanced Search Features
 
 - `SEARXNG_DEFAULT_DEPTH`: Controls search depth

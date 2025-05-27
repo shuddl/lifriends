@@ -36,6 +36,17 @@ export type SearchResultItem = {
   content: string
 }
 
+export type PropertySearchResultItem = {
+  address: string
+  url: string
+  price: string
+  beds: number
+  baths: number
+  imageUrl?: string
+  lat?: number
+  lng?: number
+}
+
 export type ExaSearchResultItem = {
   score: number
   title: string
