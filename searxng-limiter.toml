@@ -1,1 +1,21 @@
-#https://docs.searxng.org/admin/searx.limiter.html
+# Example rate limiting configuration for SearXNG
+# See https://docs.searxng.org/admin/searx.limiter.html
+
+# Ban settings - IPs that violate limits are banned for one hour
+[ban]
+duration = "1h"
+# Number of infractions before a ban is applied
+threshold = 5
+
+# Request limits. Each value uses the form "requests/time".
+[limits.search]
+# Maximum searches allowed from a single IP
+rates = ["5/second", "60/minute"]
+
+[limits.suggest]
+# Suggestions endpoint has a lower limit
+rates = ["10/minute"]
+
+[limits.global]
+# Overall limit for any request type
+rates = ["120/hour", "1000/day"]
