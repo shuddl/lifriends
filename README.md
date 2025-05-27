@@ -59,6 +59,7 @@ Models are configured in `public/config/models.json`. Each model requires its co
 
 - URL-specific search
 - Video search support (Optional)
+- RealEstate API integration for property listings
 - SearXNG integration with:
   - Customizable search depth (basic/advanced)
   - Configurable engines

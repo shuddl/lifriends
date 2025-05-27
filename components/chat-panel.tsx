@@ -13,6 +13,7 @@ import { ModelSelector } from './model-selector'
 import { SearchModeToggle } from './search-mode-toggle'
 import { Button } from './ui/button'
 import { IconLogo } from './ui/icons'
+import VoiceInput from './voice-input'
 
 interface ChatPanelProps {
   input: string
@@ -197,6 +198,14 @@ export function ChatPanel({
                   <MessageCirclePlus className="size-4 group-hover:rotate-12 transition-all" />
                 </Button>
               )}
+              {/* Voice input toggle */}
+              <VoiceInput
+                onText={text =>
+                  handleInputChange({
+                    target: { value: text }
+                  } as React.ChangeEvent<HTMLTextAreaElement>)
+                }
+              />
               <Button
                 type={isLoading ? 'button' : 'submit'}
                 size={'icon'}
