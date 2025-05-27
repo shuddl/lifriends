@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/server'
 import { cn } from '@/lib/utils'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Roboto as FontSans } from 'next/font/google'
+import { Raleway as FontSans } from 'next/font/google'
 import './globals.css'
 
 const fontSans = FontSans({
