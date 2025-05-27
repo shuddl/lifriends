@@ -3,6 +3,7 @@ import { createManualToolStreamResponse } from '@/lib/streaming/create-manual-to
 import { createToolCallingStreamResponse } from '@/lib/streaming/create-tool-calling-stream'
 import { Model } from '@/lib/types/models'
 import { isProviderEnabled } from '@/lib/utils/registry'
+import { checkRateLimit } from '@/lib/utils/rate-limit'
 import { cookies } from 'next/headers'
 
 export const maxDuration = 30
@@ -22,6 +23,16 @@ export async function POST(req: Request) {
     const referer = req.headers.get('referer')
     const isSharePage = referer?.includes('/share/')
     const userId = await getCurrentUserId()
+
+    const ip =
+      req.headers.get('x-forwarded-for') ||
+      req.headers.get('x-real-ip') ||
+      'unknown'
+    const identifier = userId ? `user:${userId}` : `ip:${ip}`
+
+    if (!checkRateLimit(identifier)) {
+      return new Response('Too Many Requests', { status: 429 })
+    }
 
     if (isSharePage) {
       return new Response('Chat API is not available on share pages', {
