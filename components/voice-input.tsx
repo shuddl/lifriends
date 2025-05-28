@@ -17,7 +17,7 @@ export default function VoiceInput({ onText }: VoiceInputProps) {
       const rec = new SpeechRecognition()
       rec.continuous = false
       rec.lang = 'en-US'
-      rec.onresult = e => {
+      rec.onresult = (e: SpeechRecognitionEvent) => {
         const text = e.results[0][0].transcript
         onText(text)
         setListening(false)
